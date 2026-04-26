@@ -59,7 +59,7 @@ def create_background() -> None:
     draw.rectangle((0, height - 118, width, height), fill=(33, 38, 33))
     draw.rectangle((0, height - 118, width, height - 111), fill=ARMY_GOLD)
     draw.text((54, height - 82), "DEVCOM AvMC", fill=ARMY_GOLD, font=font(34))
-    draw.text((54, height - 43), "Platform sustainment analytics", fill=(218, 218, 205), font=font(22))
+    draw.text((54, height - 43), "R&D engineering analytics", fill=(218, 218, 205), font=font(22))
 
     image.save(BACKGROUND_PATH, quality=92)
 
