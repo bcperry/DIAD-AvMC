@@ -127,7 +127,10 @@ $stalePatterns = @(
     'PlatformID', 'InstallationCode', 'WorkOrders', 'EngineeringHours',
     'VanArsdel', 'Vanarsdel', 'VANarsdel',
     'USSales', 'InternationalSales', 'Sales.csv',
-    'IsParameterQueryRequired=true'
+    'IsParameterQueryRequired=true',
+    'Fabrikam', 'Tailwind Traders', 'Nod Publishers', 'Wide World Importers',
+    'table Sales', 'table Product', 'table Manufacturer', 'table Geography',
+    'PY Sales', 'Market Share'
 )
 $staleHits = @()
 foreach ($pattern in $stalePatterns) {

@@ -50,15 +50,16 @@ TOKEN_REPLACEMENTS = [
     ("InternationalSales", "InternationalPrograms"),
     ("USSales", "USEngineering"),
     ("Sales.csv", "RDWorkload.csv"),
-    # ── Competitor / manufacturer names → AvMC directorates ──
-    ("Fabrikam, Inc.", "Technology Development (TDD)"),
-    ("Tailwind Traders", "Systems Readiness (SRD)"),
-    ("Nod Publishers", "Software & Simulation (S3I)"),
-    ("Wide World Importers", "Cross-Functional Teams"),
-    ("Top Competitors", "Peer Directorates"),
+    # ── Competitor / manufacturer names → AvMC directorate groups ──
+    ("Fabrikam, Inc.", "PEO Missiles & Space"),
+    ("Tailwind Traders", "SMDC"),
+    ("Nod Publishers", "DEVCOM ARL"),
+    ("Wide World Importers", "Industry Partners"),
+    ("Top Competitors", "Partner Organizations"),
     ("DEVCOM AvMC, Ltd.", "DEVCOM AvMC"),
     # ── Table / entity renames (longest match first) ──
     ("Manufacturer Analysis", "Directorate Analysis"),
+    ("By Manufacturer", "By Directorate"),
     ("ManufacturerID", "DirectorateID"),
     ("Manufacturer (groups)", "Directorate (groups)"),
     ("Selected Manufacturer", "Selected Directorate"),
@@ -73,34 +74,43 @@ TOKEN_REPLACEMENTS = [
     ("'Product'", "'Program'"),
     ("{Product,", "{Program,"),
     ("column Product", "column Program"),
+    ("level Product", "level Program"),
+    ("column: Product", "column: Program"),
     ("sourceColumn: Product", "sourceColumn: Program"),
     # Geography → Lab (table name)
     ("table Geography", "table Lab"),
+    ("tablePermission Geography", "tablePermission Lab"),
+    ("Geography[Zip]", "Lab[LabCode]"),
     ("Geography[LabCode]", "Lab[LabCode]"),
     ("Geography[Country]", "Lab[Country]"),
     ('"Geography"', '"Lab"'),
     ("Geography/", "Lab/"),
     # Sales table → RDWorkload
     ("table Sales", "table RDWorkload"),
+    ("Sales[Revenue]", "RDWorkload[LaborHours]"),
     ("Sales[LaborHours]", "RDWorkload[LaborHours]"),
     ("Sales[Sales]", "RDWorkload[Total Labor Hours]"),
+    ("Sales[Zip]", "RDWorkload[LabCode]"),
+    ("'Sales'", "'RDWorkload'"),
+    # Relationship patterns using ORIGINAL column names (before ProductID→ProgramID etc.)
+    ("Sales.ProductID", "RDWorkload.ProgramID"),
+    ("Sales.ZipCountry", "RDWorkload.LabCodeCountry"),
+    ("Sales.Date", "RDWorkload.Date"),
+    ("Product.ProductID", "Program.ProgramID"),
+    ("Product.ManufacturerID", "Program.DirectorateID"),
+    ("Manufacturer.ManufacturerID", "Directorate.DirectorateID"),
+    ("Geography.ZipCountry", "Lab.LabCodeCountry"),
+    # Also post-rename patterns (in case any text already uses new names)
     ("Sales.ProgramID", "RDWorkload.ProgramID"),
     ("Sales.LabCodeCountry", "RDWorkload.LabCodeCountry"),
-    ("Sales.Date", "RDWorkload.Date"),
-    ("'Sales'", "'RDWorkload'"),
-    # Product table → Program in relationships/expressions
     ("Product.ProgramID", "Program.ProgramID"),
     ("Product.DirectorateID", "Program.DirectorateID"),
-    ("Product.ManufacturerID", "Program.DirectorateID"),
-    # Manufacturer table → Directorate in relationships/expressions
-    ("Manufacturer.DirectorateID", "Directorate.DirectorateID"),
-    ("Manufacturer.ManufacturerID", "Directorate.DirectorateID"),
-    # Geography table → Lab in relationships/expressions
     ("Geography.LabCodeCountry", "Lab.LabCodeCountry"),
     ("Geography.LabCode", "Lab.LabCode"),
     # ── Measure renames ──
     ("DEVCOM AvMC Market Share", "DEVCOM AvMC Effort Share"),
     ("DEVCOM AvMC Sales", "DEVCOM AvMC Labor Hours"),
+    ("Market Share", "Effort Share"),
     ("PY Sales", "PY Labor Hours"),
     ("measure Sales", "measure 'Total Labor Hours'"),
     ("measure Bar", "measure 'Workload Bar'"),
@@ -111,6 +121,7 @@ TOKEN_REPLACEMENTS = [
     ("PlatformID", "ProgramID"),
     # Geography → Lab (intermediate first since it's longer)
     ("InstallationCode", "LabCode"),
+    ("ZipCountry", "LabCodeCountry"),
     ("Zip", "LabCode"),
     # Display names (longest match first)
     ("Units Sold", "Research Tasks"),

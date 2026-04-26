@@ -182,6 +182,151 @@ def generate_international_sales() -> dict[str, int]:
     return row_counts
 
 
+# ── Dimension data for bi_dimensions.xlsx ──
+
+DIRECTORATES = [
+    {"id": 1, "name": "PEO Aviation"},
+    {"id": 2, "name": "PEO Missiles & Space"},
+    {"id": 3, "name": "RCCTO"},
+    {"id": 4, "name": "SMDC"},
+    {"id": 5, "name": "DEVCOM ARL"},
+    {"id": 6, "name": "Joint Program Offices"},
+    {"id": 7, "name": "DEVCOM AvMC"},
+    {"id": 8, "name": "Industry Partners"},
+]
+
+PROGRAM_DIMENSIONS = [
+    # (ProgramID, "ProgramName|Segment", Category, DirectorateID, Price)
+    (1001, "FLRAA (V-280 Valor)|Systems Integration", "Future Vertical Lift", 7, "TRL 7"),
+    (1002, "FARA|Aerodynamics", None, 7, "TRL 6"),
+    (1003, "ITEP (T901 Engine)|Propulsion", None, 7, "TRL 7"),
+    (1004, "MOSA Avionics|Avionics Software", None, 7, "TRL 5"),
+    (1005, "Black Hawk Aircrew Trainer|Virtual Simulation", "Modeling & Simulation", 7, "TRL 8"),
+    (2001, "PrSM (Precision Strike Missile)|Guidance & Nav", "Long Range Precision Fires", 7, "TRL 7"),
+    (2002, "HIMARS Modernization|Launcher Systems", None, 7, "TRL 8"),
+    (2003, "Hypersonic Weapon Components|Thermal Protection", None, 2, "TRL 4"),
+    (2004, "LRPF Next-Gen Propulsion|Rocket Propulsion", None, 2, "TRL 5"),
+    (2005, "IFPC (Indirect Fire Protection)|Sensors & Radar", "Air & Missile Defense", 4, "TRL 6"),
+    (2006, "THAAD Modernization|Interceptor Systems", None, 4, "TRL 7"),
+    (2007, "Patriot Next-Gen Radar|Signal Processing", None, 4, "TRL 6"),
+    (3001, "Directed Energy Weapons|High Energy Laser", "Emerging Technology", 5, "TRL 4"),
+    (3002, "Counter-UAS Systems|Detection & Track", None, 5, "TRL 5"),
+]
+
+LAB_DIMENSIONS = [
+    # (LabCode, City, State, Region, District, Country)
+    ("35808", "Redstone Arsenal, AL", "AL", "South", "District #01", "USA"),
+    ("94035", "Moffett Field, CA", "CA", "West", "District #02", "USA"),
+    ("23604", "JB Langley-Eustis, VA", "VA", "East", "District #03", "USA"),
+    ("78419", "Corpus Christi, TX", "TX", "South", "District #04", "USA"),
+    ("80913", "Colorado Springs, CO", "CO", "West", "District #05", "USA"),
+    ("88002", "White Sands, NM", "NM", "West", "District #06", "USA"),
+    ("85365", "Yuma Proving Ground, AZ", "AZ", "West", "District #07", "USA"),
+    ("21005", "Aberdeen, MD", "MD", "East", "District #08", "USA"),
+    ("96857", "Wheeler AAF, HI", "HI", "West", "District #09", "USA"),
+    ("35898", "Redstone Test Center, AL", "AL", "South", "District #01", "USA"),
+    ("32542", "Eglin AFB, FL", "FL", "South", "District #10", "USA"),
+    ("87117", "Kirtland AFB, NM", "NM", "West", "District #06", "USA"),
+]
+
+# International facility codes → lab entries
+_FMS_FACILITIES = {
+    "Australia": [
+        ("2600", "Edinburgh, SA", "SA", "Pacific", "APAC District", "Australia"),
+        ("4700", "Townsville, QLD", "QLD", "Pacific", "APAC District", "Australia"),
+        ("5000", "Adelaide, SA", "SA", "Pacific", "APAC District", "Australia"),
+        ("8107", "Darwin, NT", "NT", "Pacific", "APAC District", "Australia"),
+    ],
+    "Japan": [
+        ("100", "Ichigaya, Tokyo", "TK", "Pacific", "Japan District", "Japan"),
+        ("197", "Sagamihara, Kanagawa", "KN", "Pacific", "Japan District", "Japan"),
+        ("904", "Kadena, Okinawa", "OK", "Pacific", "Japan District", "Japan"),
+        ("901", "Naha, Okinawa", "OK", "Pacific", "Japan District", "Japan"),
+    ],
+    "SouthKorea": [
+        ("412", "Daejeon", "DJ", "Pacific", "Korea District", "South Korea"),
+        ("140", "Seoul", "SE", "Pacific", "Korea District", "South Korea"),
+        ("406", "Cheonan", "CN", "Pacific", "Korea District", "South Korea"),
+        ("503", "Changwon", "GN", "Pacific", "Korea District", "South Korea"),
+    ],
+    "Germany": [
+        ("67657", "Kaiserslautern", "RP", "Europe", "Germany District", "Germany"),
+        ("91522", "Ansbach", "BY", "Europe", "Germany District", "Germany"),
+        ("92655", "Grafenwoehr", "BY", "Europe", "Germany District", "Germany"),
+        ("53123", "Bonn", "NW", "Europe", "Germany District", "Germany"),
+    ],
+    "Mexico": [
+        ("11520", "Mexico City", "CDMX", "Americas", "Mexico District", "Mexico"),
+        ("76220", "Queretaro", "QRO", "Americas", "Mexico District", "Mexico"),
+        ("45659", "Guadalajara", "JAL", "Americas", "Mexico District", "Mexico"),
+        ("66600", "Monterrey", "NL", "Americas", "Mexico District", "Mexico"),
+    ],
+    "Canada": [
+        ("8050", "Ottawa, ON", "ON", "Americas", "Canada District", "Canada"),
+        ("3155", "Valcartier, QC", "QC", "Americas", "Canada District", "Canada"),
+        ("3590", "Suffield, AB", "AB", "Americas", "Canada District", "Canada"),
+        ("107", "Halifax, NS", "NS", "Americas", "Canada District", "Canada"),
+    ],
+}
+
+DIMENSIONS_PATH = DATA_DIR / "USEngineering" / "bi_dimensions.xlsx"
+
+
+def rebuild_dimensions() -> None:
+    """Rebuild bi_dimensions.xlsx with Option C dimension data."""
+    from openpyxl import Workbook
+    from openpyxl.worksheet.table import Table, TableStyleInfo
+
+    wb = Workbook()
+
+    # ── product sheet (Excel Table named Product_Table) ──
+    ws_prod = wb.active
+    ws_prod.title = "product"
+    ws_prod.append(["Product Details", None, None, None, None])
+    ws_prod.append(["ProgramID", "Product", "Category", "DirectorateID", "Price"])
+    for row in PROGRAM_DIMENSIONS:
+        ws_prod.append(list(row))
+
+    # Create named Excel Table over data range (row 2 = header, rows 3-16 = data)
+    data_end_row = 2 + len(PROGRAM_DIMENSIONS)
+    tab = Table(displayName="Product_Table", ref=f"A2:E{data_end_row}")
+    tab.tableStyleInfo = TableStyleInfo(name="TableStyleMedium2", showFirstColumn=False,
+                                        showLastColumn=False, showRowStripes=True)
+    ws_prod.add_table(tab)
+
+    # ── manufacturer sheet (transposed layout) ──
+    ws_mfr = wb.create_sheet("manufacturer")
+    num_dirs = len(DIRECTORATES)
+    # Row 1: generic column headers
+    ws_mfr.append(["Column1"] + [f"Column{i+2}" for i in range(num_dirs)])
+    # Row 2: DirectorateID row
+    ws_mfr.append(["DirectorateID"] + [d["id"] for d in DIRECTORATES])
+    # Row 3: Directorate name row
+    ws_mfr.append(["Directorate"] + [d["name"] for d in DIRECTORATES])
+    # Row 4: Logo row (empty — no external logo URLs)
+    ws_mfr.append(["Logo"] + ["" for _ in DIRECTORATES])
+
+    # ── geo sheet (with header rows matching original layout) ──
+    ws_geo = wb.create_sheet("geo")
+    ws_geo.append(["Source:", "DEVCOM AvMC Lab Locations", None, None, None, None])
+    ws_geo.append(["Last Updated:", "2026-01-01", None, None, None, None])
+    ws_geo.append([None] * 6)
+    ws_geo.append(["LabCode", "City", "State", "Region", "District", "Country"])
+
+    # US lab rows
+    for lab_row in LAB_DIMENSIONS:
+        ws_geo.append(list(lab_row))
+
+    # International facility rows
+    for country_labs in _FMS_FACILITIES.values():
+        for lab_row in country_labs:
+            ws_geo.append(list(lab_row))
+
+    DIMENSIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    wb.save(DIMENSIONS_PATH)
+    print(f"Rebuilt {DIMENSIONS_PATH}")
+
+
 def main() -> None:
     random.seed(RANDOM_SEED)
     Faker.seed(RANDOM_SEED)
@@ -194,6 +339,8 @@ def main() -> None:
     international_counts = generate_international_sales()
     for country, row_count in international_counts.items():
         print(f"InternationalPrograms/{country}.csv: {row_count:,} rows")
+
+    rebuild_dimensions()
 
 
 if __name__ == "__main__":
