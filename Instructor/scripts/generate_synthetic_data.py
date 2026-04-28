@@ -43,6 +43,20 @@ PROGRAMS = [
     {"id": 2007, "name": "Patriot Next-Gen Radar", "category": "Air & Missile Defense", "weight": 0.46, "tasks": (1, 10), "hours": 31.0},
     {"id": 3001, "name": "Directed Energy Weapons", "category": "Emerging Technology", "weight": 0.38, "tasks": (1, 12), "hours": 67.0},
     {"id": 3002, "name": "Counter-UAS Systems", "category": "Emerging Technology", "weight": 0.34, "tasks": (1, 11), "hours": 39.0},
+    # PEO Aviation (DirectorateID 1)
+    {"id": 4001, "name": "FUAS (Future UAS)", "category": "Unmanned Systems", "weight": 0.72, "tasks": (2, 16), "hours": 58.0},
+    {"id": 4002, "name": "Apache Guardian Upgrade", "category": "Unmanned Systems", "weight": 0.65, "tasks": (2, 14), "hours": 48.0},
+    {"id": 4003, "name": "Chinook Block II", "category": "Unmanned Systems", "weight": 0.50, "tasks": (1, 12), "hours": 42.0},
+    # RCCTO (DirectorateID 3)
+    {"id": 5001, "name": "Rapid Prototyping Initiative", "category": "Rapid Capability", "weight": 0.45, "tasks": (1, 10), "hours": 72.0},
+    {"id": 5002, "name": "Autonomous Resupply", "category": "Rapid Capability", "weight": 0.35, "tasks": (1, 8), "hours": 55.0},
+    # Joint Program Offices (DirectorateID 6)
+    {"id": 6001, "name": "Joint Air-Ground Missile", "category": "Joint Munitions", "weight": 0.58, "tasks": (1, 14), "hours": 63.0},
+    {"id": 6002, "name": "Joint Multi-Role Helo", "category": "Joint Munitions", "weight": 0.48, "tasks": (1, 12), "hours": 50.0},
+    {"id": 6003, "name": "Joint C-UAS Integration", "category": "Joint Munitions", "weight": 0.40, "tasks": (1, 10), "hours": 45.0},
+    # Industry Partners (DirectorateID 8)
+    {"id": 7001, "name": "Industry IRAD - Composites", "category": "Defense Industrial Base", "weight": 0.30, "tasks": (1, 8), "hours": 38.0},
+    {"id": 7002, "name": "Industry IRAD - AI/ML", "category": "Defense Industrial Base", "weight": 0.28, "tasks": (1, 7), "hours": 35.0},
 ]
 
 LABS = [
@@ -61,12 +75,12 @@ LABS = [
 ]
 
 FMS_CONFIG = {
-    "Australia": {"program_ids": [1001, 1003, 2005], "facility_codes": [2600, 4700, 5000, 8107], "growth": 0.04},
-    "Japan": {"program_ids": [2003, 2006, 2007], "facility_codes": [100, 197, 904, 901], "growth": 0.035},
-    "SouthKorea": {"program_ids": [1001, 2005, 2006, 3002], "facility_codes": [412, 140, 406, 503], "growth": 0.09},
-    "Germany": {"program_ids": [2005, 2007, 1003], "facility_codes": [67657, 91522, 92655, 53123], "growth": 0.025},
-    "Mexico": {"program_ids": [1004, 1005], "facility_codes": [11520, 76220, 45659, 66600], "growth": 0.02},
-    "Canada": {"program_ids": [1001, 3001], "facility_codes": [8050, 3155, 3590, 107], "growth": 0.018},
+    "Australia": {"program_ids": [1001, 1003, 2005, 4001, 6001], "facility_codes": [2600, 4700, 5000, 8107], "growth": 0.04},
+    "Japan": {"program_ids": [2003, 2006, 2007, 6002], "facility_codes": [100, 197, 904, 901], "growth": 0.035},
+    "SouthKorea": {"program_ids": [1001, 2005, 2006, 3002, 4002], "facility_codes": [412, 140, 406, 503], "growth": 0.09},
+    "Germany": {"program_ids": [2005, 2007, 1003, 5001], "facility_codes": [67657, 91522, 92655, 53123], "growth": 0.025},
+    "Mexico": {"program_ids": [1004, 1005, 7001], "facility_codes": [11520, 76220, 45659, 66600], "growth": 0.02},
+    "Canada": {"program_ids": [1001, 3001, 6003], "facility_codes": [8050, 3155, 3590, 107], "growth": 0.018},
 }
 
 PROGRAM_BY_ID = {program["id"]: program for program in PROGRAMS}
@@ -185,18 +199,18 @@ def generate_international_sales() -> dict[str, int]:
 # ── Dimension data for bi_dimensions.xlsx ──
 
 DIRECTORATES = [
-    {"id": 1, "name": "PEO Aviation"},
-    {"id": 2, "name": "PEO Missiles & Space"},
-    {"id": 3, "name": "RCCTO"},
-    {"id": 4, "name": "SMDC"},
-    {"id": 5, "name": "DEVCOM ARL"},
-    {"id": 6, "name": "Joint Program Offices"},
-    {"id": 7, "name": "DEVCOM AvMC"},
-    {"id": 8, "name": "Industry Partners"},
+    {"id": 1, "name": "PEO Aviation", "logo": "https://th.bing.com/th/id/OIP.fmOoH9INyIdty4eSL8ad9wAAAA?w=137&h=150&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"},
+    {"id": 2, "name": "PEO Missiles & Space", "logo": "https://deshq.com/wp-content/uploads/2019/12/PEO-MS.png"},
+    {"id": 3, "name": "RCCTO", "logo": "https://th.bing.com/th/id/R.dbda82b5ab4e227d9db4e7bbf8dad487?rik=hGLL8IlU7B9YmA&riu=http%3a%2f%2fww1.prweb.com%2fprfiles%2f2020%2f01%2f22%2f16820400%2f0.png&ehk=yfGlM2angUdFD4K6Y42P78jDj4ODZoHCb7G7x5Vb3TU%3d&risl=&pid=ImgRaw&r=0"},
+    {"id": 4, "name": "SMDC", "logo": "https://www.clipartmax.com/png/middle/188-1887751_smdc-logo-united-states-army-space-and-missile-defense-command.png"},
+    {"id": 5, "name": "DEVCOM ARL", "logo": "https://tse4.mm.bing.net/th/id/OIP.79Gt8Sm_XEAJwzhmiRn2swHaDy?rs=1&pid=ImgDetMain&o=7&rm=3"},
+    {"id": 6, "name": "Joint Program Offices", "logo": "https://jpeoaa.army.mil/portals/94/Images/JPEOAA/logos/logo-pljs.png?ver=KMAvkkhYRC6_xrFNl8HPeQ%3D%3D"},
+    {"id": 7, "name": "DEVCOM AvMC", "logo": "https://tse1.mm.bing.net/th/id/OIP.B0t95Wh3PilNsphpi0EXKwHaDy?rs=1&pid=ImgDetMain&o=7&rm=3"},
+    {"id": 8, "name": "Industry Partners", "logo": "https://upload.wikimedia.org/wikipedia/commons/9/97/Emblem_of_the_Assistant_Secretary_of_Defense_for_Industrial_Base_Policy.png"},
 ]
 
 PROGRAM_DIMENSIONS = [
-    # (ProgramID, "ProgramName|Segment", Category, DirectorateID, Price)
+    # (ProgramID, "ProgramName|Segment", Category, DirectorateID, TRLLevel)
     (1001, "FLRAA (V-280 Valor)|Systems Integration", "Future Vertical Lift", 7, "TRL 7"),
     (1002, "FARA|Aerodynamics", None, 7, "TRL 6"),
     (1003, "ITEP (T901 Engine)|Propulsion", None, 7, "TRL 7"),
@@ -211,6 +225,20 @@ PROGRAM_DIMENSIONS = [
     (2007, "Patriot Next-Gen Radar|Signal Processing", None, 4, "TRL 6"),
     (3001, "Directed Energy Weapons|High Energy Laser", "Emerging Technology", 5, "TRL 4"),
     (3002, "Counter-UAS Systems|Detection & Track", None, 5, "TRL 5"),
+    # PEO Aviation (DirectorateID 1)
+    (4001, "FUAS (Future UAS)|Flight Controls", "Unmanned Systems", 1, "TRL 5"),
+    (4002, "Apache Guardian Upgrade|Avionics Integration", None, 1, "TRL 7"),
+    (4003, "Chinook Block II|Structural Analysis", None, 1, "TRL 6"),
+    # RCCTO (DirectorateID 3)
+    (5001, "Rapid Prototyping Initiative|Systems Engineering", "Rapid Capability", 3, "TRL 4"),
+    (5002, "Autonomous Resupply|Autonomy Software", None, 3, "TRL 3"),
+    # Joint Program Offices (DirectorateID 6)
+    (6001, "Joint Air-Ground Missile|Seeker Technology", "Joint Munitions", 6, "TRL 6"),
+    (6002, "Joint Multi-Role Helo|Rotor Dynamics", None, 6, "TRL 5"),
+    (6003, "Joint C-UAS Integration|Sensor Fusion", None, 6, "TRL 4"),
+    # Industry Partners (DirectorateID 8)
+    (7001, "Industry IRAD - Composites|Advanced Materials", "Defense Industrial Base", 8, "TRL 3"),
+    (7002, "Industry IRAD - AI/ML|Machine Learning", None, 8, "TRL 4"),
 ]
 
 LAB_DIMENSIONS = [
@@ -283,7 +311,7 @@ def rebuild_dimensions() -> None:
     ws_prod = wb.active
     ws_prod.title = "product"
     ws_prod.append(["Product Details", None, None, None, None])
-    ws_prod.append(["ProgramID", "Product", "Category", "DirectorateID", "Price"])
+    ws_prod.append(["ProgramID", "Product", "Category", "DirectorateID", "TechnologyReadinessLevel"])
     for row in PROGRAM_DIMENSIONS:
         ws_prod.append(list(row))
 
@@ -294,8 +322,8 @@ def rebuild_dimensions() -> None:
                                         showLastColumn=False, showRowStripes=True)
     ws_prod.add_table(tab)
 
-    # ── manufacturer sheet (transposed layout) ──
-    ws_mfr = wb.create_sheet("manufacturer")
+    # ── directorate sheet (transposed layout) ──
+    ws_mfr = wb.create_sheet("directorate")
     num_dirs = len(DIRECTORATES)
     # Row 1: generic column headers
     ws_mfr.append(["Column1"] + [f"Column{i+2}" for i in range(num_dirs)])
@@ -303,8 +331,11 @@ def rebuild_dimensions() -> None:
     ws_mfr.append(["DirectorateID"] + [d["id"] for d in DIRECTORATES])
     # Row 3: Directorate name row
     ws_mfr.append(["Directorate"] + [d["name"] for d in DIRECTORATES])
-    # Row 4: Logo row (empty — no external logo URLs)
-    ws_mfr.append(["Logo"] + ["" for _ in DIRECTORATES])
+    # Row 4: Logo row
+    ws_mfr.append(["Logo"] + [d["logo"] for d in DIRECTORATES])
+    # Rows 5-7: intentional blank rows (students learn to delete these)
+    for _ in range(3):
+        ws_mfr.append([None] * (num_dirs + 1))
 
     # ── geo sheet (with header rows matching original layout) ──
     ws_geo = wb.create_sheet("geo")
