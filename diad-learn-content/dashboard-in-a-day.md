@@ -122,6 +122,10 @@ If you're unfamiliar with how to unzip files, you right-click on the Attendee.zi
 
 Your `C:\DIAD\` directory should now have the folders **Data** and **Reports** in its root.
 
+Note
+
+**Can't extract to the C: drive?** If your organization's policy prevents writing to `C:\`, you can extract the files to any location you have access to (for example, your Desktop, Documents folder, or a D: drive). Just remember the path you chose — you'll need it when connecting to data sources. **Important:** The pre-built .pbix file has data source paths configured for `C:\DIAD\`. If you extract to a different location, the .pbix will not be able to refresh its data. In that case, skip ahead to **Module 7: Access and Prepare Data from Scratch** first to load the data from your chosen location, then return to **Module 2** to continue with the dashboard overview and visual-building exercises.
+
 The .zip includes a pre-built Power BI file called **DIAD-AvMC-Starter.pbix** in the **Reports** folder. This file contains:
 
 - **All data already loaded and transformed** — the R&D Workload, Lab, Program, and Directorate tables are ready to use.
